@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   css: [ "/public/main.css" ],
   app: {
     head: {
+      title: "Profil Public | Jobs",
       link: [
         { rel: "icon", type: "image/jpeg", href: "favicon.jpg" }
       ]
