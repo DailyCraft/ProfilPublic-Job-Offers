@@ -1,6 +1,7 @@
 {
-  "name": "nuxt-app",
-  "private": true,
+  "name": "profilpublic-jobs-listing",
+  "repository": "https://github.com/DailyCraft/ProfilPublic-Jobs-Listing",
+  "homepage": "https://dailycraft.github.io/ProfilPublic-Jobs-Listing/",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
