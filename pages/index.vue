@@ -51,7 +51,7 @@ function onScroll(event) {
 
 <template>
   <div class="bg-gray-300 p-px h-screen flex flex-col">
-    <div class="m-5 bg-blue-500 rounded-3xl flex flex-col pl-5 pr-5 pt-3 pb-3 whitespace-nowrap">
+    <div class="m-5 bg-blue-500 rounded-3xl flex max-xl:flex-col justify-around pl-5 pr-5 pt-3 pb-3 whitespace-nowrap">
       <div class="flex">
         <p>Employeur :&nbsp;</p>
         <select name="employers" v-model="selectedEmployer" class="truncate max-lg:w-full">
