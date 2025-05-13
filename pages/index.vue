@@ -7,8 +7,8 @@ useSeoMeta({
 const jobs = ref([]);
 const currentPage = ref(0);
 
-const employers = await useFetch("https://app.profilpublic.fr/api/employers?fields=name&sort[name]=asc");
-const sectors = await useFetch("https://app.profilpublic.fr/api/sectors?fields=name&sort[name]=asc");
+const employers = await useFetch("https://app.profilpublic.fr/api/employers?fields=name&sort[name]=asc&pagination[pageSize]=200");
+const sectors = await useFetch("https://app.profilpublic.fr/api/sectors?fields=name&sort[name]=asc&pagination[pageSize]=200");
 const selectedEmployer = ref("-1");
 const selectedSector = ref("-1");
 
