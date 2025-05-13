@@ -1,75 +1,39 @@
-# Nuxt Minimal Starter
+# 🧾 Profil Public - Jobs listing
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This project is a frontend application built with Nuxt 3, Vue.js 3, and Tailwind CSS.
+It fetches and displays a list of available jobs from the Profil Public platform.
 
-## Setup
+## 🚀 Features
+✅ Fetches jobs from the Profil Public API\
+✅ Filter and display job offers\
+✅ Fully responsive design using Tailwind CSS\
+✅ Built with Nuxt 3 & Vue.js 3\
+✅ Deployable via GitHub Pages
 
-Make sure to install dependencies:
+## 🌐 Live Demo
+You can view the deployed project here:
+👉 [GitHub Pages Link](https://dailycraft.github.io/ProfilPublic-Jobs-Listing/)
 
-```bash
-# npm
-npm install
+## 🛠️ Local Development
+1. Clone the repository
+    ```bash
+    git clone https://github.com/DailyCraft/ProfilPublic-Jobs-Listing
+    cd ProfilPublic-Jobs-Listing
+    ```
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+3. Run the server
+   ```bash
+   npm run dev
+   ```
+   App will be running at: http://localhost:3000
 
-# pnpm
-pnpm install
+## 🧩 Tech Stack
+- [Nuxt 3](https://nuxt.com/)
+- [Vue 3](https://vuejs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 📄 License
+This project is licensed under the MIT License.
