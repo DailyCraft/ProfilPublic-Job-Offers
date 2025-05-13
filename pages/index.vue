@@ -1,13 +1,13 @@
 <script setup>
-useHead({
-  title: "Profil Public | Jobs"
+useSeoMeta({
+  title: "Profil Public | Jobs",
+  description: "Liste des jobs proposés par Profil Public"
 });
 
 const jobs = ref([]);
-const modalJob = ref();
 
 const currentPage = ref(0);
-const {data, pending, error} = await useFetch(() => "https://app.profilpublic.fr/api/jobs" +
+const jobsFetch = await useFetch(() => "https://app.profilpublic.fr/api/jobs" +
     "?fields[0]=moderated" +
     "&fields[1]=slug" +
     "&fields[2]=title" +
@@ -15,6 +15,7 @@ const {data, pending, error} = await useFetch(() => "https://app.profilpublic.fr
     "&fields[4]=validatedAt" +
     "&filters[published]=true" +
     "&populate[employer][fields][0]=name" +
+    "&populate[employer][fields][1]=slug" +
     "&populate[employer][populate][cover][fields][0]=url" +
     "&populate[employer][populate][logo][fields][0]=url" +
     "&populate[header][fields][0]=title" +
@@ -25,26 +26,28 @@ const {data, pending, error} = await useFetch(() => "https://app.profilpublic.fr
     "&populate[speaker][fields][0]=firstName" +
     "&populate[speaker][fields][1]=lastName" +
     "&populate[speaker][populate][photo][fields][0]=url" +
-    "&populate[categories][fields][0]=name&populate[categories][fields][1]=slug" +
+    "&populate[categories][fields][0]=name" +
+    "&populate[categories][fields][1]=slug" +
+    "&populate[sectors][fields][0]=name" +
     "&pagination[pageSize]=20" +
     `&pagination[page]=${currentPage.value}` +
     "&sort[0][imported]=asc" +
     "&sort[1][validatedAt]=desc");
 
-watch(pending, (isPending) => {
+watch(jobsFetch.pending, (isPending) => {
   if (isPending)
     return;
-  if (error.value)
-    console.error("Error during the request:", error.value);
+  if (jobsFetch.error.value)
+    console.error("Error during the request:", jobsFetch.error.value);
   else
-    jobs.value.push(...toRaw(data.value).data);
+    jobs.value.push(...toRaw(jobsFetch.data.value).data);
 }, {immediate: true});
 
 const onScroll = () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !pending.value)
-    if (currentPage.value < data.value.meta.pagination.pageCount)
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !jobsFetch.pending.value)
+    if (currentPage.value < jobsFetch.data.value.meta.pagination.pageCount)
       currentPage.value++;
-}
+};
 
 onMounted(() =>
     window.addEventListener("scroll", onScroll));
@@ -54,11 +57,17 @@ onUnmounted(() =>
 
 <template>
   <div class="bg-gray-300 p-px">
+    <!-- <div class="m-5 bg-blue-600 rounded-3xl">
+      <select name="employers">
+      </select>
+    </div> -->
     <ul>
-      <Item v-for="job in jobs" :key="job.id" :job="job" @click="modalJob = job"/>
+      <li v-for="job in jobs" :key="job.id"
+          class="bg-white border border-gray-900 rounded-xl p-3 m-5 shadow-[0_0_25px_rgba(0,0,0,0.4)]">
+        <Item :job="job"/>
+      </li>
     </ul>
-    <p v-if="pending || currentPage < data.meta.pagination.pageCount">Pending</p>
-    <p v-else>Done</p>
-    <Modal v-model="modalJob"/>
+    <!-- <p v-if="jobsFetch.pending.value || currentPage < jobsFetch.data.value.meta.pagination.pageCount">Pending</p>
+    <p v-else>Done</p> -->
   </div>
 </template>

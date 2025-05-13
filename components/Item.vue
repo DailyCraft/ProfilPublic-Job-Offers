@@ -5,23 +5,23 @@ const {job} = defineProps({
     required: true
   }
 });
-
-function onClick() {
-  window.open("https://profilpublic.fr/jobs/" + job.slug, "_blank");
-}
 </script>
 
 <template>
-  <li class="flex items-center cursor-pointer bg-white border border-gray-900 rounded-xl p-3 m-5 shadow-[0_0_25px_rgba(0,0,0,0.4)]">
+  <a :href="'https://profilpublic.fr/jobs/' + job.slug" target="_blank" class="md:flex items-center">
     <NuxtImg :alt="job.title" :src="'https://app.profilpublic.fr' + job.employer.cover.url" loading="lazy"
-             class="object-cover h-[150px] w-[270px] rounded-xl mr-3"/>
-    <div class="flex-1 overflow-hidden">
-      <p class="text-3xl whitespace-nowrap text-ellipsis overflow-hidden" :title="job.title">{{ job.title }}</p>
-      <div class="flex items-center">
-        <NuxtImg :alt="job.employer.name" :src="'https://app.profilpublic.fr' + job.employer.logo.url"
-                 loading="lazy" class="object-cover h-[30x] w-[30px] rounded-full mr-1"/>
-        {{ job.employer.name }}
+             class="object-cover w-full md:w-[250px] h-[100px] sm:h-[125px] rounded-xl mr-3"/>
+    <div class="flex-1 overflow-hidden flex flex-col h-full">
+      <p class="text-2xl sm:text-3xl md:whitespace-nowrap text-ellipsis overflow-hidden max-md:line-clamp-2" :title="job.title">{{ job.title }}</p>
+      <div class="sm:flex items-center mb-4 sm:space-x-5">
+        <a :href="'https://profilpublic.fr/employeurs/' + job.employer.slug" class="flex space-x-1 overflow-auto">
+          <NuxtImg :alt="job.employer.name" :src="'https://app.profilpublic.fr' + job.employer.logo.url"
+                   loading="lazy" class="object-cover h-[30px] w-[30px] rounded-full"/>
+          <p class="text-lg whitespace-nowrap overflow-hidden text-ellipsis">{{ job.employer.name }}</p>
+        </a>
+        <p class="flex-1 whitespace-nowrap">📍 {{ job.locations.map(l => l.city).join(" / ") }}</p>
       </div>
+      <p>🛠️ {{ job.sectors.map(s => s.name).join(" / ") }}</p>
     </div>
-  </li>
+  </a>
 </template>
