@@ -1,4 +1,4 @@
-# 🧾 Profil Public - Jobs listing
+# 🧾 Profil Public - Job offers
 
 This project is a frontend application built with Nuxt 3, Vue.js 3, and Tailwind CSS.
 It fetches and displays a list of available jobs from the Profil Public platform.
@@ -12,13 +12,13 @@ It fetches and displays a list of available jobs from the Profil Public platform
 
 ## 🌐 Live Demo
 You can view the deployed project here:
-👉 [GitHub Pages Link](https://dailycraft.github.io/ProfilPublic-Jobs-Listing/)
+👉 [GitHub Pages Link](https://dailycraft.github.io/ProfilPublic-Job-Offers/)
 
 ## 🛠️ Local Development
 1. Clone the repository
     ```bash
-    git clone https://github.com/DailyCraft/ProfilPublic-Jobs-Listing
-    cd ProfilPublic-Jobs-Listing
+    git clone https://github.com/DailyCraft/ProfilPublic-Job-Offers
+    cd ProfilPublic-Job-Offers
     ```
 2. Install dependencies
    ```bash

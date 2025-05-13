@@ -17,7 +17,7 @@ jobs:
       - run: npm ci
       - run: npx nuxt build --preset github_pages
         env:
-          NUXT_APP_BASE_URL: /ProfilPublic-Jobs-Listing/
+          NUXT_APP_BASE_URL: /ProfilPublic-Job-Offers/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

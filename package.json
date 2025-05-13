@@ -1,7 +1,7 @@
 {
-  "name": "profilpublic-jobs-listing",
-  "repository": "https://github.com/DailyCraft/ProfilPublic-Jobs-Listing",
-  "homepage": "https://dailycraft.github.io/ProfilPublic-Jobs-Listing/",
+  "name": "profilpublic-job-offers",
+  "repository": "https://github.com/DailyCraft/ProfilPublic-Job-Offers",
+  "homepage": "https://dailycraft.github.io/ProfilPublic-Job-Offers/",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
