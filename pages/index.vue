@@ -5,30 +5,28 @@ useSeoMeta({
 });
 
 const jobs = ref([]);
-
 const currentPage = ref(0);
+
+const employers = await useFetch("https://app.profilpublic.fr/api/employers?fields=name&sort[name]=asc");
+const sectors = await useFetch("https://app.profilpublic.fr/api/sectors?fields=name&sort[name]=asc");
+const selectedEmployer = ref("-1");
+const selectedSector = ref("-1");
+
+watch([selectedEmployer, selectedSector], () => {
+  jobs.value = [];
+  currentPage.value = 0;
+});
+
 const jobsFetch = await useFetch(() => "https://app.profilpublic.fr/api/jobs" +
-    "?fields[0]=moderated" +
-    "&fields[1]=slug" +
-    "&fields[2]=title" +
-    "&fields[3]=type" +
-    "&fields[4]=validatedAt" +
-    "&filters[published]=true" +
-    "&populate[employer][fields][0]=name" +
-    "&populate[employer][fields][1]=slug" +
-    "&populate[employer][populate][cover][fields][0]=url" +
-    "&populate[employer][populate][logo][fields][0]=url" +
-    "&populate[header][fields][0]=title" +
-    "&populate[header][populate][cover][fields][0]=url" +
-    "&populate[locations][fields][0]=%2A" +
-    "&populate[locations][populate][region][fields][0]=name" +
-    "&populate[locations][populate][region][fields][1]=slug" +
-    "&populate[speaker][fields][0]=firstName" +
-    "&populate[speaker][fields][1]=lastName" +
-    "&populate[speaker][populate][photo][fields][0]=url" +
-    "&populate[categories][fields][0]=name" +
-    "&populate[categories][fields][1]=slug" +
-    "&populate[sectors][fields][0]=name" +
+    "?fields[0]=slug" +
+    "&fields[1]=title" +
+    (selectedEmployer.value === "-1" ? "" : `&filters[employer][id]=${selectedEmployer.value}`) +
+    (selectedSector.value === "-1" ? "" : `&filters[sectors][id]=${selectedSector.value}`) +
+    "&populate[employer][fields]=name" +
+    "&populate[employer][populate][cover][fields]=url" +
+    "&populate[employer][populate][logo][fields]=url" +
+    "&populate[locations][fields]=city" +
+    "&populate[sectors][fields]=name" +
     "&pagination[pageSize]=20" +
     `&pagination[page]=${currentPage.value}` +
     "&sort[0][imported]=asc" +
@@ -43,31 +41,46 @@ watch(jobsFetch.pending, (isPending) => {
     jobs.value.push(...toRaw(jobsFetch.data.value).data);
 }, {immediate: true});
 
-const onScroll = () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !jobsFetch.pending.value)
+function onScroll(event) {
+  const {scrollTop, clientHeight, scrollHeight} = event.target;
+  if (scrollTop + clientHeight >= scrollHeight - 100 && !jobsFetch.pending.value)
     if (currentPage.value < jobsFetch.data.value.meta.pagination.pageCount)
       currentPage.value++;
-};
-
-onMounted(() =>
-    window.addEventListener("scroll", onScroll));
-onUnmounted(() =>
-    window.removeEventListener("scroll", onScroll));
+}
 </script>
 
 <template>
-  <div class="bg-gray-300 p-px">
-    <!-- <div class="m-5 bg-blue-600 rounded-3xl">
-      <select name="employers">
-      </select>
-    </div> -->
-    <ul>
+  <div class="bg-gray-300 p-px h-screen flex flex-col">
+    <div class="m-5 bg-blue-500 rounded-3xl flex flex-col pl-5 pr-5 pt-3 pb-3 whitespace-nowrap">
+      <div class="flex">
+        <p>Employeur :&nbsp;</p>
+        <select name="employers" v-model="selectedEmployer" class="truncate max-lg:w-full">
+          <option selected value="-1"> -- Sélectionner une option -- </option>
+          <option v-for="employer in employers.data.value.data" :key="employer.id" :value="employer.id">{{ employer.name }}</option>
+        </select>
+      </div>
+      <div class="flex">
+        <p>Secteur :&nbsp;</p>
+        <select name="sectors" v-model="selectedSector" class="truncate max-sm:w-full">
+          <option selected value="-1"> -- Sélectionner une option -- </option>
+          <option v-for="sector in sectors.data.value.data" :key="sector.id" :value="sector.id">{{ sector.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <ul @scroll="onScroll" class="flex-1 overflow-y-scroll">
       <li v-for="job in jobs" :key="job.id"
-          class="bg-white border border-gray-900 rounded-xl p-3 m-5 shadow-[0_0_25px_rgba(0,0,0,0.4)]">
+          class="bg-white border border-gray-700 rounded-xl p-3 m-5 shadow-[0_0_25px_rgba(0,0,0,0.4)]">
         <Item :job="job"/>
       </li>
+      <li class="w-full text-center text-2xl">
+        <p v-if="jobsFetch.pending.value || currentPage < jobsFetch.data.value.meta.pagination.pageCount - 1">
+          Chargement
+        </p>
+        <p v-else>
+          Fin de la liste
+        </p>
+      </li>
     </ul>
-    <!-- <p v-if="jobsFetch.pending.value || currentPage < jobsFetch.data.value.meta.pagination.pageCount">Pending</p>
-    <p v-else>Done</p> -->
   </div>
 </template>
